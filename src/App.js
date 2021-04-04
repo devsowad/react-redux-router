@@ -1,36 +1,48 @@
 import React, { Component } from "react"
+import AddNinja from "./AddNinja"
+import Ninjas from "./Ninjas"
 
 class App extends Component {
   state = {
-    name: "Marry",
-    age: 15,
+    ninjas: [
+      { name: "Ryu", age: 30, belt: "Black", id: 1 },
+      { name: "Youshi", age: 20, belt: "Red", id: 2 },
+      { name: "Crystal", age: 35, belt: "Green", id: 3 },
+    ],
   }
 
-  handleClick = () => {
+  addNinja = ninja => {
+    ninja.id = Math.random()
+    const ninjas = [...this.state.ninjas, ninja]
+
     this.setState({
-      name: "John",
-      age: this.state.age + 5,
+      ninjas,
+    })
+  }
+
+  deleteNinja = id => {
+    const ninjas = this.state.ninjas.filter(ninja => {
+      return ninja.id !== id
     })
 
-    console.log(this.state.age)
+    this.setState({
+      ninjas,
+    })
   }
 
-  handleMosueOver(e) {
-    console.log(e.target, e.pageX, e.pageY)
+  componentDidMount() {
+    console.log("component mounted!")
   }
 
-  handleCopy(e) {
-    console.log(e)
+  componentDidUpdate(prevProps, prevState) {
+    console.log("component updated!", prevProps, prevState)
   }
 
   render() {
     return (
       <div>
-        <p onCopy={this.handleCopy}>
-          My name is {this.state.name} and I am {this.state.age} year old.
-        </p>
-        <button onClick={this.handleClick}>click!</button>
-        <button onMouseOver={this.handleMosueOver}>hover!</button>
+        <Ninjas deleteNinja={this.deleteNinja} ninjas={this.state.ninjas} />
+        <AddNinja addNinja={this.addNinja} />
       </div>
     )
   }
