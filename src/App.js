@@ -1,49 +1,23 @@
 import React, { Component } from "react"
-import AddNinja from "./AddNinja"
-import Ninjas from "./Ninjas"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
+import About from "./components/About"
+import Contact from "./components/Contact"
+import Home from "./components/Home"
+import Navbar from "./components/Navbar"
+import Post from "./components/Post"
 
 class App extends Component {
-  state = {
-    ninjas: [
-      { name: "Ryu", age: 30, belt: "Black", id: 1 },
-      { name: "Youshi", age: 20, belt: "Red", id: 2 },
-      { name: "Crystal", age: 35, belt: "Green", id: 3 },
-    ],
-  }
-
-  addNinja = ninja => {
-    ninja.id = Math.random()
-    const ninjas = [...this.state.ninjas, ninja]
-
-    this.setState({
-      ninjas,
-    })
-  }
-
-  deleteNinja = id => {
-    const ninjas = this.state.ninjas.filter(ninja => {
-      return ninja.id !== id
-    })
-
-    this.setState({
-      ninjas,
-    })
-  }
-
-  componentDidMount() {
-    console.log("component mounted!")
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log("component updated!", prevProps, prevState)
-  }
-
   render() {
     return (
-      <div>
-        <Ninjas deleteNinja={this.deleteNinja} ninjas={this.state.ninjas} />
-        <AddNinja addNinja={this.addNinja} />
-      </div>
+      <BrowserRouter>
+        <Navbar />
+        <Switch>
+          <Route path="/" exact component={Home}></Route>
+          <Route path="/about" component={About}></Route>
+          <Route path="/contact" component={Contact}></Route>
+          <Route path="/post/:postId" component={Post}></Route>
+        </Switch>
+      </BrowserRouter>
     )
   }
 }
